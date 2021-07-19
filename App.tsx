@@ -1,10 +1,11 @@
 import React from 'react';
-import MemoScreen from './src/screens/MemoScreen';
+import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { StyleSheet } from 'react-native';
+import MemoScreen from './src/screens/MemoScreen';
+import GroupScreen from './src/screens/GroupScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -32,7 +33,7 @@ export default function App() {
           />
           <Tab.Screen
             name="Groups"
-            component={MemoScreen}
+            component={GroupScreen}
             options={{
               tabBarLabel: 'Groups',
               tabBarIcon: ({ color, size }) => (
@@ -47,21 +48,6 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#F6F6F6',
-    paddingHorizontal: 15,
-    height: '100%',
-  },
-  title: {
-    fontWeight: 'bold',
-    fontSize: 31.25,
-  },
-  bodyText: {
-    fontSize: 16,
-  },
-  spacing: {
-    marginBottom: 30,
-  },
   bottomNavigation: {
     backgroundColor: '#F6F6F6',
     elevation: 0, //android
