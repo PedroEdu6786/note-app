@@ -1,17 +1,24 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-const MemoHeader = () => {
+const MemoHeader = ({ title, count, isMemos }: any) => {
+  const numCards = isMemos ? `${count} memos` : `${count} groups`;
   return (
     <View style={styles.container}>
       <View style={styles.spacing}>
-        <Text style={styles.title}>My Memos</Text>
+        <Text style={styles.title}>{title}</Text>
       </View>
       <View style={styles.spacing}>
-        <Text style={styles.bodyText}>0 notes</Text>
+        <Text style={styles.bodyText}>{numCards}</Text>
       </View>
     </View>
   );
+};
+
+MemoHeader.defaultProps = {
+  title: 'My Title',
+  count: 0,
+  isMemos: false,
 };
 
 export default MemoHeader;

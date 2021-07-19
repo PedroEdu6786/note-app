@@ -1,24 +1,26 @@
 import React from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import MemoCard from '../components/MemoCard';
-import Header from '../components/Header';
 import FloatingButton from '../components/FloatingButton';
-import { MEMOS } from '../utils/constants';
+import GroupCard from '../components/GroupCard';
+import Header from '../components/Header';
+import { GROUPS } from '../utils/constants';
 
-const TITLE = 'My Memos';
+const TITLE = 'My Groups';
 
-const MemoScreen = () => {
-  const NUM_MEMOS = MEMOS.length;
+const GroupScreen = () => {
+  const NUM_GROUPS = GROUPS.length;
+
   return (
     <SafeAreaView>
       <View style={styles.container}>
-        <Header title={TITLE} count={NUM_MEMOS} isMemos />
+        <Header title={TITLE} count={NUM_GROUPS} />
         <FlatList
           numColumns={2}
-          data={MEMOS}
+          data={GROUPS}
           keyExtractor={(item, index) => index + item}
-          renderItem={({ item }) => <MemoCard description={item} />}
+          renderItem={({ item }) => <GroupCard name={item} />}
+          columnWrapperStyle={{ justifyContent: 'space-between' }}
         />
         <FloatingButton />
       </View>
@@ -26,7 +28,7 @@ const MemoScreen = () => {
   );
 };
 
-export default MemoScreen;
+export default GroupScreen;
 
 const styles = StyleSheet.create({
   container: {
