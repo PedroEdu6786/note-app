@@ -1,24 +1,45 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import MemoCard from '../components/MemoCard';
 import Header from '../components/Header';
 import FloatingButton from '../components/FloatingButton';
-import { MEMOS } from '../utils/constants';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const TITLE = 'My Memos';
 
 const MemoScreen = () => {
-  const NUM_MEMOS = MEMOS.length;
+  const [memoList, setMemoList] = useState([]);
+
+  const fetchMemos = async () => {
+    try {
+      let data: any = await AsyncStorage.getItem('memos');
+      let memos = data ? JSON.parse(data) : [];
+
+      if (!memos) return;
+
+      memos.push(memoList);
+
+      setMemoList(memos);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchMemos();
+  }, []);
+
+  const NUM_MEMOS = memoList.length;
   return (
     <SafeAreaView>
       <View style={styles.container}>
         <Header title={TITLE} count={NUM_MEMOS} isMemos />
         <FlatList
           numColumns={2}
-          data={MEMOS}
-          keyExtractor={(item, index) => index + item}
-          renderItem={({ item }) => <MemoCard description={item} />}
+          data={memoList}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => <MemoCard {...item} />}
         />
         <FloatingButton />
       </View>
