@@ -1,7 +1,12 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { GROUPS } from '../utils/constants';
 
-const MemoCard = ({ description, date, groupColor }: any) => {
+const MemoCard = ({ description, date, group_id }: any) => {
+  const groupColor: any = GROUPS.find((group) => group_id === group.id) || {
+    color: 'black',
+  };
+
   return (
     <View style={styles.memoContainer}>
       <Text numberOfLines={4} style={[styles.spacingText, styles.bodyText]}>
@@ -12,7 +17,7 @@ const MemoCard = ({ description, date, groupColor }: any) => {
         style={[
           styles.spacingText,
           styles.group,
-          { backgroundColor: groupColor },
+          { backgroundColor: groupColor.color },
         ]}
       />
     </View>
@@ -22,7 +27,6 @@ const MemoCard = ({ description, date, groupColor }: any) => {
 MemoCard.defaultProps = {
   description: 'lorem ipsum dolor sit',
   date: '17 May 2021',
-  groupColor: '#5272E4',
 };
 
 const styles = StyleSheet.create({

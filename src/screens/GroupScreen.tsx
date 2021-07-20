@@ -18,8 +18,8 @@ const GroupScreen = () => {
         <FlatList
           numColumns={2}
           data={GROUPS}
-          keyExtractor={(item, index) => index + item}
-          renderItem={({ item }) => <GroupCard name={item} />}
+          keyExtractor={(item) => `${item.id}`}
+          renderItem={({ item }) => <GroupCard {...item} />}
           columnWrapperStyle={{ justifyContent: 'space-between' }}
         />
         <FloatingButton />

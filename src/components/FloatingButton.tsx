@@ -1,12 +1,19 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { StyleSheet, TouchableHighlight } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const FloatingButton = () => {
+  const navigation = useNavigation();
+
   return (
-    <View style={styles.container}>
+    <TouchableHighlight
+      style={styles.container}
+      underlayColor="#2853EC"
+      onPress={() => navigation.navigate('MemoForm')}
+    >
       <Icon name="add-outline" color="white" size={50} />
-    </View>
+    </TouchableHighlight>
   );
 };
 
