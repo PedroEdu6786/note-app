@@ -43,27 +43,27 @@ export const MEMOS = [
 
 export const GROUPS = [
   {
-    id: 1,
+    id: '1',
     title: 'Group 1',
     color: '#5272E4',
   },
   {
-    id: 2,
+    id: '2',
     title: 'Group 2',
     color: '#FF9E9E',
   },
   {
-    id: 3,
+    id: '3',
     title: 'Test 1',
     color: '#6D6D6D',
   },
   {
-    id: 4,
+    id: '4',
     title: 'School',
     color: '#45BDA0',
   },
   {
-    id: 5,
+    id: '5',
     title: 'Study',
     color: '#e2a258',
   },

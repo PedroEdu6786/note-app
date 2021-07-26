@@ -1,10 +1,11 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
-import MemoForm from './MemoForm';
-import BottomTabNavigation from './BottomTabNavigation';
+import MemoForm from '../../screens/MemoForm/MemoForm';
+import BottomTabNavigation from '../BottomTabNavigation/BottomTabNavigation';
+import createStyles from '../../../styles/base';
 
 const Stack = createStackNavigator();
+const styles = createStyles();
 
 const MemoStackNavigation = () => {
   return (
@@ -30,11 +31,3 @@ const MemoStackNavigation = () => {
 };
 
 export default MemoStackNavigation;
-
-const styles = StyleSheet.create({
-  navigation: {
-    backgroundColor: '#F6F6F6',
-    elevation: 0, //android
-    shadowOpacity: 0, //ios
-  },
-});
