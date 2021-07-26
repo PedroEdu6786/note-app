@@ -1,11 +1,13 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
-import GroupScreen from '../screens/GroupScreen';
-import MemoScreen from '../screens/MemoScreen';
+import GroupScreen from '../../screens/GroupScreen/GroupScreen';
+import MemoScreen from '../../screens/MemoScreen/MemoScreen';
+import createStyles from '../../../styles/base';
+import { componentStyles } from './BottomTabNavigation.styles';
 
 const Tab = createBottomTabNavigator();
+const styles = createStyles(componentStyles);
 
 export default function App() {
   return (
@@ -13,7 +15,7 @@ export default function App() {
       initialRouteName="Memos"
       tabBarOptions={{
         activeTintColor: '#5272E4',
-        style: styles.bottomNavigation,
+        style: [styles.bottomNavigation, styles.navigation],
         tabStyle: styles.tabScreen,
       }}
     >
@@ -40,16 +42,3 @@ export default function App() {
     </Tab.Navigator>
   );
 }
-
-const styles = StyleSheet.create({
-  bottomNavigation: {
-    backgroundColor: '#F6F6F6',
-    elevation: 0, //android
-    shadowOpacity: 0, //ios
-    borderTopWidth: 0,
-    height: 60,
-  },
-  tabScreen: {
-    padding: 8,
-  },
-});

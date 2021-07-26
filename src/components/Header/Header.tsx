@@ -1,5 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
+import createStyles from '../../../styles/base';
+import { componentStyles } from './Header.styles';
+
+const styles = createStyles(componentStyles);
 
 const MemoHeader = ({ title, count, isMemos }: any) => {
   const numCards = isMemos ? `${count} memos` : `${count} groups`;
@@ -9,7 +13,7 @@ const MemoHeader = ({ title, count, isMemos }: any) => {
         <Text style={styles.title}>{title}</Text>
       </View>
       <View style={styles.spacing}>
-        <Text style={styles.bodyText}>{numCards}</Text>
+        <Text style={styles.body}>{numCards}</Text>
       </View>
     </View>
   );
@@ -22,21 +26,3 @@ MemoHeader.defaultProps = {
 };
 
 export default MemoHeader;
-
-const styles = StyleSheet.create({
-  container: {
-    paddingTop: 30,
-    paddingHorizontal: 5,
-    backgroundColor: '#F6F6F6',
-  },
-  title: {
-    fontWeight: 'bold',
-    fontSize: 31.25,
-  },
-  bodyText: {
-    fontSize: 16,
-  },
-  spacing: {
-    marginBottom: 30,
-  },
-});

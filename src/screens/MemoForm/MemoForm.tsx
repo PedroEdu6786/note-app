@@ -1,30 +1,34 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { ScrollView } from 'react-native-gesture-handler';
 import { TextInput } from 'react-native-gesture-handler';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import FormHeader from './FormHeader';
+import FormHeader from '../../components/FormHeader/FormHeader';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import createStyles from '../../../styles/base';
+import { screenStyles } from './MemoForm.styles';
+import { postMemosToStorage } from '../../utils/storageHandling';
+import { Memo } from '../../utils/types';
+import { colors } from '../../../styles/foundation';
+
+const styles = createStyles(screenStyles);
 
 const MemoForm = () => {
   const [memoTitle, setMemoTitle] = useState('');
   const [memo, setMemo] = useState('');
-  const [memoGroup, setMemoGroup] = useState(0);
+  const [memoGroup, setMemoGroup] = useState('');
   const inputMemo: any = useRef(null);
   const navigation = useNavigation();
   let hasUnsavedChanges = Boolean(memo) || Boolean(memoTitle);
 
   useEffect(() => {
-    navigation.addListener('beforeRemove', async (e) => {
+    navigation.addListener('beforeRemove', async () => {
       if (hasUnsavedChanges) await submitMemo();
     });
   }, [navigation, memo, memoTitle, hasUnsavedChanges]);
 
-  const focusInput = () => {
-    inputMemo.current.focus();
-  };
+  const focusInput = () => inputMemo.current.focus();
 
   const submitMemo = useCallback(async () => {
     if (!hasUnsavedChanges) {
@@ -32,36 +36,25 @@ const MemoForm = () => {
       return;
     }
 
-    let id = memoTitle + Math.random();
-
-    const newMemo = {
-      id,
+    let newMemo: Memo = {
+      memoId: '',
       title: memoTitle,
       description: memo,
-      date: new Date(),
-      group_id: memoGroup,
+      creationDate: new Date(),
+      groupId: memoGroup,
     };
 
-    try {
-      let memos: any = await AsyncStorage.getItem('memos');
-      let listMemos = memos ? JSON.parse(memos) : [];
+    await postMemosToStorage(newMemo);
 
-      listMemos.push(newMemo);
-
-      await AsyncStorage.setItem('memos', JSON.stringify(listMemos));
-
-      setMemoTitle('');
-      setMemo('');
-      setMemoGroup(0);
-      navigation.navigate('Memos');
-    } catch (err) {
-      console.error(err);
-    }
+    setMemoTitle('');
+    setMemo('');
+    setMemoGroup('');
+    navigation.navigate('Memos');
   }, [memo, memoTitle, hasUnsavedChanges]);
 
   return (
     <SafeAreaView>
-      <View style={styles.margin}>
+      <View style={[styles.margin, styles.background]}>
         <FormHeader submitMemo={submitMemo} />
         <TouchableOpacity
           activeOpacity={1}
@@ -75,12 +68,12 @@ const MemoForm = () => {
             <TextInput
               value={memoTitle}
               placeholder="Memo Title"
-              placeholderTextColor="#5E5E5E"
-              style={[styles.titleInput, styles.spacing]}
+              placeholderTextColor={colors.gray}
+              style={[styles.title, styles.spacing]}
               onChangeText={setMemoTitle}
               autoFocus
               autoCapitalize="sentences"
-              selectionColor="#5272E4"
+              selectionColor={colors.primary}
               onSubmitEditing={focusInput}
               disableFullscreenUI
             />
@@ -88,12 +81,12 @@ const MemoForm = () => {
               ref={inputMemo}
               value={memo}
               placeholder="Enter your memo"
-              placeholderTextColor="#5E5E5E"
-              style={[styles.input, styles.spacing]}
+              placeholderTextColor={colors.gray}
+              style={[styles.body, styles.spacing, styles.background]}
               onChangeText={setMemo}
               multiline
               autoCapitalize="sentences"
-              selectionColor="#5272E4"
+              selectionColor={colors.primary}
               disableFullscreenUI
             />
           </ScrollView>
@@ -104,32 +97,3 @@ const MemoForm = () => {
 };
 
 export default MemoForm;
-
-const styles = StyleSheet.create({
-  margin: {
-    padding: 20,
-    paddingTop: 0,
-    backgroundColor: '#F6F6F6',
-  },
-  container: {
-    alignItems: 'stretch',
-    height: '100%',
-  },
-  inputContainer: {
-    flex: 1,
-    paddingBottom: 20,
-    paddingTop: 0,
-  },
-  titleInput: {
-    fontSize: 31.3,
-    fontWeight: 'bold',
-    backgroundColor: '#F6F6F6',
-  },
-  input: {
-    fontSize: 16,
-    backgroundColor: '#F6F6F6',
-  },
-  spacing: {
-    marginTop: 20,
-  },
-});

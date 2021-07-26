@@ -1,6 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import createStyles from '../../../styles/base';
+import { componentStyles } from './FormHeader.styles';
+
+const styles = createStyles(componentStyles);
 
 const FormHeader = ({ submitMemo }: any) => {
   return (
@@ -14,20 +18,3 @@ const FormHeader = ({ submitMemo }: any) => {
 };
 
 export default FormHeader;
-
-const styles = StyleSheet.create({
-  container: {
-    paddingTop: 30,
-    backgroundColor: '#F6F6F6',
-  },
-  button: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 10,
-    marginLeft: -10,
-  },
-  buttonFont: {
-    fontSize: 20,
-    fontWeight: '500',
-  },
-});

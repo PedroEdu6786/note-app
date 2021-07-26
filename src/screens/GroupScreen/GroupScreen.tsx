@@ -1,19 +1,22 @@
 import React from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { FlatList, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import FloatingButton from '../components/FloatingButton';
-import GroupCard from '../components/GroupCard';
-import Header from '../components/Header';
-import { GROUPS } from '../utils/constants';
+import createStyles from '../../../styles/base';
+import FloatingButton from '../../components/FloatingButton/FloatingButton';
+import GroupCard from '../../components/GroupCard/GroupCard';
+import Header from '../../components/Header/Header';
+import { GROUPS } from '../../utils/constants';
 
 const TITLE = 'My Groups';
+
+const styles = createStyles();
 
 const GroupScreen = () => {
   const NUM_GROUPS = GROUPS.length;
 
   return (
     <SafeAreaView>
-      <View style={styles.container}>
+      <View style={[styles.container, styles.background]}>
         <Header title={TITLE} count={NUM_GROUPS} />
         <FlatList
           numColumns={2}
@@ -29,21 +32,3 @@ const GroupScreen = () => {
 };
 
 export default GroupScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#F6F6F6',
-    paddingHorizontal: 15,
-    height: '100%',
-  },
-  title: {
-    fontWeight: 'bold',
-    fontSize: 31.25,
-  },
-  bodyText: {
-    fontSize: 16,
-  },
-  spacing: {
-    marginBottom: 30,
-  },
-});
