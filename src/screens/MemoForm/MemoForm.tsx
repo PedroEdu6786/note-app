@@ -55,7 +55,7 @@ const MemoForm = () => {
   return (
     <SafeAreaView>
       <View style={[styles.margin, styles.background]}>
-        <FormHeader submitMemo={submitMemo} />
+        <FormHeader submitForm={submitMemo} />
         <TouchableOpacity
           activeOpacity={1}
           style={styles.container}

@@ -6,10 +6,10 @@ import { componentStyles } from './FormHeader.styles';
 
 const styles = createStyles(componentStyles);
 
-const FormHeader = ({ submitMemo }: any) => {
+const FormHeader = ({ submitForm }: any) => {
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.button} onPress={submitMemo}>
+      <TouchableOpacity style={styles.button} onPress={submitForm}>
         <Icon name="chevron-back-outline" size={20} />
         <Text style={styles.buttonFont}>Save</Text>
       </TouchableOpacity>

@@ -7,12 +7,16 @@ const baseStyles: any = {
     fontSize: fontSize.xxl,
     color: colors.font,
   },
+  subTitle: {
+    fontSize: fontSize.lg,
+    color: colors.font,
+  },
   body: {
     fontSize: fontSize.md,
     color: colors.font,
   },
   microText: {
-    fontSize: 12.8,
+    fontSize: 11.8,
     color: '#575757',
   },
   spacing: {
