@@ -1,8 +1,8 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
-import GroupScreen from '../../screens/GroupScreen/GroupScreen';
-import MemoScreen from '../../screens/MemoScreen/MemoScreen';
+import GroupListScreen from '../../screens/GroupListScreen/GroupListScreen';
+import MemoListScreen from '../../screens/MemoListScreen/MemoListScreen';
 import createStyles from '../../../styles/base';
 import { componentStyles } from './BottomTabNavigation.styles';
 
@@ -21,7 +21,7 @@ export default function App() {
     >
       <Tab.Screen
         name="Memos"
-        component={MemoScreen}
+        component={MemoListScreen}
         options={{
           tabBarLabel: 'Memos',
           tabBarIcon: ({ color, size }) => (
@@ -31,7 +31,7 @@ export default function App() {
       />
       <Tab.Screen
         name="Groups"
-        component={GroupScreen}
+        component={GroupListScreen}
         options={{
           tabBarLabel: 'Groups',
           tabBarIcon: ({ color, size }) => (
