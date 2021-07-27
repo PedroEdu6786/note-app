@@ -7,14 +7,14 @@ import { componentStyles } from './FloatingButton.styles';
 
 const styles = createStyles(componentStyles);
 
-const FloatingButton = () => {
+const FloatingButton = ({ screen }: any) => {
   const navigation = useNavigation();
 
   return (
     <TouchableHighlight
       style={styles.container}
       underlayColor="#2853EC"
-      onPress={() => navigation.navigate('MemoForm')}
+      onPress={() => navigation.navigate(screen)}
     >
       <Icon name="add-outline" color="white" size={50} />
     </TouchableHighlight>

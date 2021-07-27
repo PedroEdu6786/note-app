@@ -6,6 +6,7 @@ export const screenStyles = {
   container: {
     alignItems: 'stretch',
     height: '100%',
+    marginTop: 20,
   },
   inputContainer: {
     flex: 1,

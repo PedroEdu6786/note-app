@@ -7,7 +7,8 @@ export type Memo = {
 };
 
 export type Group = {
-  groupId: number;
-  name: string;
+  groupId: string;
+  title: string;
   color: string;
+  creationDate: Date;
 };

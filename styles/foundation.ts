@@ -8,6 +8,7 @@ export const colors = {
 };
 
 export const space = {
+  xm: 10,
   sm: 15,
   md: 20,
   lg: 30,

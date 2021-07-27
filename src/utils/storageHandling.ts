@@ -1,32 +1,58 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Memo } from './types';
+import { Memo, Group } from './types';
 
 export const fetchMemosFromStorage = async (): Promise<Memo[]> => {
   let memos = null;
-  try {
-    let data: any = await AsyncStorage.getItem('memos');
-    memos = data ? JSON.parse(data) : [];
-
-    memos.sort(sortByDate);
-    memos.reverse();
-  } catch (err) {
-    console.error(err);
-    memos = [];
-  }
+  memos = await fetchFromStorage('memos');
 
   return memos;
+};
+
+export const fetchGroupsFromStorage = async (): Promise<Group[]> => {
+  let groups = null;
+  groups = await fetchFromStorage('groups');
+
+  return groups;
+};
+
+export const fetchFromStorage = async (item: string): Promise<any[]> => {
+  let fetchData = null;
+
+  try {
+    let data: any = await AsyncStorage.getItem(item);
+    fetchData = data ? JSON.parse(data) : [];
+
+    fetchData.sort(sortByDate);
+    fetchData.reverse();
+  } catch (err) {
+    console.error(err);
+    fetchData = [];
+  }
+
+  return fetchData;
 };
 
 export const postMemosToStorage = async (memos: Memo) => {
   let memoId = memos.title + Math.random();
   memos.memoId = memoId;
 
-  try {
-    let data: any = await AsyncStorage.getItem('memos');
-    let memosList = data ? JSON.parse(data) : [];
-    memosList.push(memos);
+  await postToStorage('memos', memos);
+};
 
-    await AsyncStorage.setItem('memos', JSON.stringify(memosList));
+export const postGroupToStorage = async (group: Group) => {
+  let groupId = group.title + Math.random();
+  group.groupId = groupId;
+
+  await postToStorage('groups', group);
+};
+
+const postToStorage = async (item: string, postData: any) => {
+  try {
+    let data: any = await AsyncStorage.getItem(item);
+    let list = data ? JSON.parse(data) : [];
+    list.push(postData);
+
+    await AsyncStorage.setItem(item, JSON.stringify(list));
   } catch (err) {
     console.error(err);
   }

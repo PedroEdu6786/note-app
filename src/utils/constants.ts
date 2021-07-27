@@ -68,3 +68,16 @@ export const GROUPS = [
     color: '#e2a258',
   },
 ];
+
+export const colorSelector = [
+  '#FF9E9E',
+  '#9EB4FF',
+  '#45BDA0',
+  '#FFEF9E',
+  '#FFC19E',
+  '#9EE8FF',
+  '#AC7BEB',
+  '#FF9EE4',
+  '#424242',
+  '#CBCBCB',
+];

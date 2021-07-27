@@ -36,7 +36,7 @@ const MemoScreen = () => {
           keyExtractor={(item) => item.memoId.toString()}
           renderItem={({ item }) => <MemoCard {...item} />}
         />
-        <FloatingButton />
+        <FloatingButton screen={'MemoForm'} />
       </View>
     </SafeAreaView>
   );
