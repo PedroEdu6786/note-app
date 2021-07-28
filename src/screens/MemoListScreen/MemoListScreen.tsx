@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { FlatList, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import MemoCard from '../../components/MemoCard/MemoCard';
@@ -12,7 +12,7 @@ import Context from '../../store/context';
 const TITLE = 'My Memos';
 const styles = createStyles();
 
-const MemoScreen = () => {
+const MemoListScreen = ({ navigation }: any) => {
   const [memoList, setMemoList] = useState<Memo[]>([]);
   const { globalState, globalDispatch }: any = useContext(Context);
 
@@ -34,6 +34,14 @@ const MemoScreen = () => {
     globalDispatch({ type: 'SET_MEMOS', payload: memos });
   };
 
+  const navigateToMemo = useCallback(
+    (memoId: string) => {
+      const memoData = memoList.find((memo) => memo.memoId === memoId);
+      navigation.navigate('MemoForm', { ...memoData });
+    },
+    [memoList, navigation],
+  );
+
   return (
     <SafeAreaView>
       <View style={[styles.container, styles.background]}>
@@ -42,7 +50,12 @@ const MemoScreen = () => {
           numColumns={2}
           data={memoList}
           keyExtractor={(item) => item.memoId.toString()}
-          renderItem={({ item }) => <MemoCard {...item} />}
+          renderItem={({ item }) => (
+            <MemoCard
+              handlePress={() => navigateToMemo(item.memoId)}
+              {...item}
+            />
+          )}
         />
         <FloatingButton screen={'MemoForm'} />
       </View>
@@ -50,4 +63,4 @@ const MemoScreen = () => {
   );
 };
 
-export default MemoScreen;
+export default MemoListScreen;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import createStyles from '../../../styles/base';
 import { GROUPS } from '../../utils/constants';
 import { parseDate } from '../../utils/date';
@@ -8,7 +8,12 @@ import { componentStyles } from './MemoCard.styles';
 
 const styles = createStyles(componentStyles);
 
-const MemoCard = ({ description, creationDate, groupId }: Memo) => {
+const MemoCard = ({
+  handlePress,
+  description,
+  creationDate,
+  groupId,
+}: Memo | any) => {
   const groupColor: any = GROUPS.find((group) => groupId === group.id) || {
     color: 'black',
   };
@@ -16,7 +21,7 @@ const MemoCard = ({ description, creationDate, groupId }: Memo) => {
   let date = parseDate(creationDate);
 
   return (
-    <View style={styles.memoContainer}>
+    <TouchableOpacity onPress={handlePress} style={styles.memoContainer}>
       <Text numberOfLines={4} style={[styles.spacingText, styles.body]}>
         {description}
       </Text>
@@ -28,7 +33,7 @@ const MemoCard = ({ description, creationDate, groupId }: Memo) => {
           { backgroundColor: groupColor.color },
         ]}
       />
-    </View>
+    </TouchableOpacity>
   );
 };
 

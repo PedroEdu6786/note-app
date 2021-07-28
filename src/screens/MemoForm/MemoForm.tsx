@@ -11,7 +11,6 @@ import {
   ScrollView,
   TextInput,
 } from 'react-native-gesture-handler';
-import { useNavigation } from '@react-navigation/native';
 import FormHeader from '../../components/FormHeader/FormHeader';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import createStyles from '../../../styles/base';
@@ -23,20 +22,28 @@ import Context from '../../store/context';
 
 const styles = createStyles(screenStyles);
 
-const MemoForm = () => {
+const MemoForm = ({ route, navigation }: any) => {
   const [memoTitle, setMemoTitle] = useState('');
   const [memo, setMemo] = useState('');
   const [memoGroup, setMemoGroup] = useState('');
   const inputMemo: any = useRef(null);
   const { globalDispatch }: any = useContext(Context);
-  const navigation = useNavigation();
+
   let hasUnsavedChanges = Boolean(memo) || Boolean(memoTitle);
 
   useEffect(() => {
+    if (route.params != null) {
+      const { title, description } = route.params;
+
+      setMemoTitle(title);
+      setMemo(description);
+      return;
+    }
+
     navigation.addListener('beforeRemove', async () => {
-      if (hasUnsavedChanges) await submitMemo();
+      if (hasUnsavedChanges && route.params == null) await submitMemo();
     });
-  }, [navigation, memo, memoTitle, hasUnsavedChanges]);
+  }, [navigation, route, memo, memoTitle, hasUnsavedChanges]);
 
   const focusInput = () => inputMemo.current.focus();
 
@@ -63,10 +70,23 @@ const MemoForm = () => {
     navigation.navigate('Memos');
   }, [memo, memoTitle, hasUnsavedChanges]);
 
+  const updateMemo = useCallback(async () => {
+    const { title, description } = route.params;
+    if (title === memoTitle && description === memo) {
+      navigation.navigate('Memos');
+      return;
+    }
+
+    setMemoTitle('');
+    setMemo('');
+    setMemoGroup('');
+    navigation.navigate('Memos');
+  }, [memo, memoTitle, hasUnsavedChanges, route]);
+
   return (
     <SafeAreaView>
       <View style={[styles.margin, styles.background]}>
-        <FormHeader submitForm={submitMemo} />
+        <FormHeader submitForm={route.params ? updateMemo : submitMemo} />
         <TouchableOpacity
           activeOpacity={1}
           style={styles.container}

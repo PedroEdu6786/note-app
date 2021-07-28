@@ -26,6 +26,10 @@ const baseStyles: any = {
     height: '100%',
     paddingHorizontal: space.sm,
   },
+  headerContainer: {
+    paddingTop: 30,
+    backgroundColor: colors.background,
+  },
   background: {
     backgroundColor: colors.background,
   },
@@ -38,6 +42,16 @@ const baseStyles: any = {
     fontSize: 20,
     fontWeight: '500',
     color: colors.font,
+  },
+  align: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 10,
+  },
+  margin: {
+    padding: 20,
+    paddingTop: 0,
+    height: '100%',
   },
 };
 
