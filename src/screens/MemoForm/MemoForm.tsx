@@ -1,8 +1,16 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { View } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { ScrollView } from 'react-native-gesture-handler';
-import { TextInput } from 'react-native-gesture-handler';
+import {
+  TouchableOpacity,
+  ScrollView,
+  TextInput,
+} from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import FormHeader from '../../components/FormHeader/FormHeader';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -11,6 +19,7 @@ import { screenStyles } from './MemoForm.styles';
 import { postMemosToStorage } from '../../utils/storageHandling';
 import { Memo } from '../../utils/types';
 import { colors } from '../../../styles/foundation';
+import Context from '../../store/context';
 
 const styles = createStyles(screenStyles);
 
@@ -19,6 +28,7 @@ const MemoForm = () => {
   const [memo, setMemo] = useState('');
   const [memoGroup, setMemoGroup] = useState('');
   const inputMemo: any = useRef(null);
+  const { globalDispatch }: any = useContext(Context);
   const navigation = useNavigation();
   let hasUnsavedChanges = Boolean(memo) || Boolean(memoTitle);
 
@@ -37,7 +47,7 @@ const MemoForm = () => {
     }
 
     let newMemo: Memo = {
-      memoId: '',
+      memoId: memoTitle + Math.random(),
       title: memoTitle,
       description: memo,
       creationDate: new Date(),
@@ -45,6 +55,7 @@ const MemoForm = () => {
     };
 
     await postMemosToStorage(newMemo);
+    globalDispatch({ type: 'UPDATE_MEMOS', payload: newMemo });
 
     setMemoTitle('');
     setMemo('');

@@ -33,16 +33,10 @@ export const fetchFromStorage = async (item: string): Promise<any[]> => {
 };
 
 export const postMemosToStorage = async (memos: Memo) => {
-  let memoId = memos.title + Math.random();
-  memos.memoId = memoId;
-
   await postToStorage('memos', memos);
 };
 
 export const postGroupToStorage = async (group: Group) => {
-  let groupId = group.title + Math.random();
-  group.groupId = groupId;
-
   await postToStorage('groups', group);
 };
 

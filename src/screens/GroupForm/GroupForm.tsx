@@ -1,11 +1,13 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import createStyles from '../../../styles/base';
 import { colors } from '../../../styles/foundation';
 import FormHeader from '../../components/FormHeader/FormHeader';
+import Context from '../../store/context';
 import { colorSelector } from '../../utils/constants';
 import { postGroupToStorage } from '../../utils/storageHandling';
 import { Group } from '../../utils/types';
@@ -16,6 +18,7 @@ const styles = createStyles(screenStyles);
 const GroupForm = () => {
   const [groupTitle, setGroupTitle] = useState('');
   const [colorSelected, setColorSelected] = useState('');
+  const { globalDispatch }: any = useContext(Context);
   const navigation = useNavigation();
 
   let hasUnsavedChanges = Boolean(groupTitle) && Boolean(colorSelected);
@@ -33,13 +36,14 @@ const GroupForm = () => {
     }
 
     let newGroup: Group = {
-      groupId: '',
+      groupId: groupTitle + Math.random(),
       title: groupTitle,
       color: colorSelected,
       creationDate: new Date(),
     };
 
     await postGroupToStorage(newGroup);
+    globalDispatch({ type: 'UPDATE_GROUPS', payload: newGroup });
 
     setGroupTitle('');
     setColorSelected('');

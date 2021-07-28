@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { FlatList, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import MemoCard from '../../components/MemoCard/MemoCard';
@@ -7,23 +7,31 @@ import FloatingButton from '../../components/FloatingButton/FloatingButton';
 import { fetchMemosFromStorage } from '../../utils/storageHandling';
 import { Memo } from '../../utils/types';
 import createStyles from '../../../styles/base';
+import Context from '../../store/context';
 
 const TITLE = 'My Memos';
 const styles = createStyles();
 
 const MemoScreen = () => {
   const [memoList, setMemoList] = useState<Memo[]>([]);
+  const { globalState, globalDispatch }: any = useContext(Context);
+
   const NUM_MEMOS = memoList.length;
 
   useEffect(() => {
-    fetchMemos();
-  }, []);
+    if (globalState.memos.length === 0) {
+      fetchMemos();
+      return;
+    }
+
+    setMemoList(globalState.memos);
+  }, [globalState]);
 
   const fetchMemos = async (): Promise<void> => {
     let memos: Memo[] = await fetchMemosFromStorage();
     if (!memos) return;
 
-    setMemoList(memos);
+    globalDispatch({ type: 'SET_MEMOS', payload: memos });
   };
 
   return (
