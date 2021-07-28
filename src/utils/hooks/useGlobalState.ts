@@ -30,7 +30,6 @@ const reducer = (state: any, action: any) => {
       };
     case UPDATE_MEMOS:
       state.groups.push(action.payload);
-
       return {
         ...state,
       };

@@ -40,6 +40,15 @@ export const postGroupToStorage = async (group: Group) => {
   await postToStorage('groups', group);
 };
 
+export const updateMemoToStorage = async (memo: Memo) => {
+  let listOfMemos = await fetchMemosFromStorage();
+
+  listOfMemos.filter((item) => item.memoId === memo.memoId);
+  listOfMemos.push(memo);
+
+  await updateToStorage('memos', listOfMemos);
+};
+
 const postToStorage = async (item: string, postData: any) => {
   try {
     let data: any = await AsyncStorage.getItem(item);
@@ -47,6 +56,14 @@ const postToStorage = async (item: string, postData: any) => {
     list.push(postData);
 
     await AsyncStorage.setItem(item, JSON.stringify(list));
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+const updateToStorage = async (item: string, postData: any) => {
+  try {
+    await AsyncStorage.setItem(item, JSON.stringify(postData));
   } catch (err) {
     console.error(err);
   }

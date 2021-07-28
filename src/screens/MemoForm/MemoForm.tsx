@@ -15,7 +15,10 @@ import FormHeader from '../../components/FormHeader/FormHeader';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import createStyles from '../../../styles/base';
 import { screenStyles } from './MemoForm.styles';
-import { postMemosToStorage } from '../../utils/storageHandling';
+import {
+  postMemosToStorage,
+  updateMemoToStorage,
+} from '../../utils/storageHandling';
 import { Memo } from '../../utils/types';
 import { colors } from '../../../styles/foundation';
 import Context from '../../store/context';
@@ -26,22 +29,30 @@ const MemoForm = ({ route, navigation }: any) => {
   const [memoTitle, setMemoTitle] = useState('');
   const [memo, setMemo] = useState('');
   const [memoGroup, setMemoGroup] = useState('');
+  const [viewMemo, setViewMemo] = useState(false);
   const inputMemo: any = useRef(null);
   const { globalDispatch }: any = useContext(Context);
 
   let hasUnsavedChanges = Boolean(memo) || Boolean(memoTitle);
 
   useEffect(() => {
-    if (route.params != null) {
+    if (route.params != null && !viewMemo) {
       const { title, description } = route.params;
 
       setMemoTitle(title);
       setMemo(description);
+      setViewMemo(true);
       return;
     }
 
     navigation.addListener('beforeRemove', async () => {
-      if (hasUnsavedChanges && route.params == null) await submitMemo();
+      if (hasUnsavedChanges && route.params == null) {
+        await submitMemo();
+        return;
+      }
+
+      const { title, description } = route.params;
+      if (memoTitle !== title || memo !== description) await updateMemo();
     });
   }, [navigation, route, memo, memoTitle, hasUnsavedChanges]);
 
@@ -71,11 +82,21 @@ const MemoForm = ({ route, navigation }: any) => {
   }, [memo, memoTitle, hasUnsavedChanges]);
 
   const updateMemo = useCallback(async () => {
-    const { title, description } = route.params;
+    const { title, description, memoId } = route.params;
     if (title === memoTitle && description === memo) {
       navigation.navigate('Memos');
       return;
     }
+
+    let updateMemo: Memo = {
+      memoId,
+      title: memoTitle,
+      description: memo,
+      creationDate: new Date(),
+      groupId: memoGroup,
+    };
+
+    await updateMemoToStorage(updateMemo);
 
     setMemoTitle('');
     setMemo('');
